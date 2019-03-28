@@ -174,5 +174,13 @@ namespace Troublestaller
         {
             Application.Exit();
         }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process openURL = new Process();
+            openURL.StartInfo.FileName = "https://github.com/maltobelli/Troublestaller";
+            openURL.StartInfo.UseShellExecute = true;
+            openURL.Start();
+        }
     }
 }

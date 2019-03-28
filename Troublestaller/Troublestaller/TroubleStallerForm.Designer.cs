@@ -40,6 +40,7 @@
             this.installedButton = new System.Windows.Forms.Button();
             this.installingProgress = new System.Windows.Forms.ProgressBar();
             this.installingLabel = new System.Windows.Forms.Label();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.wizardTabControl.SuspendLayout();
             this.wizardTabPage.SuspendLayout();
             this.eulaTabPage.SuspendLayout();
@@ -178,11 +179,23 @@
             this.installingLabel.TabIndex = 0;
             this.installingLabel.Text = "Installing";
             // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(536, 425);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(129, 13);
+            this.linkLabel1.TabIndex = 1;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "Powered by Troublestaller";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
             // TroubleStallerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.wizardTabControl);
             this.Name = "TroubleStallerForm";
             this.Text = "Installer - Powered By Troublestaller";
@@ -195,6 +208,7 @@
             this.installingPage.ResumeLayout(false);
             this.installingPage.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -212,6 +226,7 @@
         private System.Windows.Forms.Label installingLabel;
         private System.Windows.Forms.ProgressBar installingProgress;
         private System.Windows.Forms.Button installedButton;
+        private System.Windows.Forms.LinkLabel linkLabel1;
     }
 }
 
