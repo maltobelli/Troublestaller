@@ -33,6 +33,14 @@ namespace Troublestaller
 
             //Load the EULA
             LoadEULA();
+
+            //If uninstalling change the button to uninstall
+            if (Program.Uninstall)
+            {
+                agreeButton.Text = "Agree and uninstall";
+                installingLabel.Text = "Uninstalling";
+            }
+                
         }
 
         private void LoadEULA()
@@ -105,14 +113,69 @@ namespace Troublestaller
 
         private void InstallingPage_Enter(object sender, EventArgs e)
         {
-            this.installingProgress.Maximum = 100;
-            InstallPrerequisites();
-            this.installingProgress.Value = 30;
+            if(Program.Uninstall)
+            {
+                this.installingProgress.Maximum = 100;
 
-            InstallFiles();
-            this.installingProgress.Value = 100;
-            this.installedButton.Visible = true;
-            this.installingLabel.Text = "Installed";
+                UninstallFiles();
+                this.installingProgress.Value = 100;
+                this.installedButton.Visible = true;
+                this.installingLabel.Text = "Uninstalled";
+            }
+            else
+            {
+                this.installingProgress.Maximum = 100;
+                InstallPrerequisites();
+                this.installingProgress.Value = 30;
+
+                InstallFiles();
+                this.installingProgress.Value = 100;
+                this.installedButton.Visible = true;
+                this.installingLabel.Text = "Installed";
+            }
+            
+        }
+
+        private void UninstallFiles()
+        {
+            if (Directory.Exists("files"))
+            {
+                string[] InstallDirectories = Directory.EnumerateDirectories("files").ToArray(); ;
+                if (InstallDirectories.Count() < 1)
+                {
+                    Log("No files found to install");
+                }
+                else
+                {
+                    foreach (string directory in InstallDirectories)
+                    {
+                        string dest = GetLocalDirectory(directory);
+                        Log("Uninstalling " + dest + " files");
+
+                        foreach (string file in Directory.EnumerateFiles(directory, "*", SearchOption.AllDirectories))
+                        {
+                            Log("Deleteing "+ file.Replace(directory, dest) + "");
+                            try
+                            {
+                                File.Delete(file.Replace(directory, dest));
+                            }catch(Exception e)
+                            {
+
+                            }
+
+                            if (Directory.Exists(file.Replace(directory, dest).Substring(0, file.Replace(directory, dest).LastIndexOf("\\"))))
+                            {
+
+                                Directory.Delete(file.Replace(directory, dest).Substring(0, file.Replace(directory, dest).LastIndexOf("\\")),true);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Log("No files directory found");
+            }
         }
 
         private void InstallFiles()
